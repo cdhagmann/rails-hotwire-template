@@ -1,0 +1,77 @@
+<div class="container mx-auto py-8 px-4">
+  <h1 class="text-3xl font-bold mb-6">Synchronized Timers Demo</h1>
+  <p class="mb-8">This page demonstrates multiple countdown timers and clocks all synchronized using a central timer service.</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Current Time</h2>
+        <p class="mb-4">This clock uses the global timer service</p>
+        <div class="text-center">
+          <div class="text-4xl font-mono" data-controller="clock" data-clock-use-global-timer-value="true">
+            <span data-clock-target="clockDisplay"></span>
+          </div>
+          <div class="mt-4 text-sm opacity-70">
+            Using shared timestamp from timer service
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Timer Service Info</h2>
+        <p>All timers on this page are synchronized using a single interval, improving performance.</p>
+        <ul class="list-disc list-inside mt-4">
+          <li>One central timer service with a shared timestamp</li>
+          <li>All components receive exactly the same timestamp</li>
+          <li>Interval aligned precisely to second boundaries</li>
+          <li>Better performance with reduced CPU usage</li>
+          <li>Perfect synchronization across all components</li>
+        </ul>
+        <div class="mt-4 p-2 bg-base-300 rounded-lg text-sm font-mono">
+          <div data-timer-service-target="debug">Timer service status...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="text-2xl font-bold mb-4">Multiple Synchronized Countdowns</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <% [
+      { days: 1, hours: 12, minutes: 30, seconds: 0, color: "primary" },
+      { days: 0, hours: 2, minutes: 15, seconds: 45, color: "secondary" },
+      { days: 0, hours: 0, minutes: 45, seconds: 0, color: "accent" }
+    ].each do |timer| %>
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+          <%= render 'shared/countdown',
+            days: timer[:days],
+            hours: timer[:hours],
+            minutes: timer[:minutes],
+            seconds: timer[:seconds],
+            progress_color: timer[:color] %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <h2 class="text-2xl font-bold mb-4">End Time Countdowns</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <% [
+      { minutes: 5, color: "success", size: "lg" },
+      { minutes: 10, color: "warning", size: "md" }
+    ].each do |timer| %>
+      <div class="card bg-base-200 shadow-xl">
+        <div class="card-body">
+          <h3 class="font-bold text-lg"><%= timer[:minutes] %> minutes from now</h3>
+          <% end_time = (Time.now + timer[:minutes].minutes).iso8601 %>
+          <%= render 'shared/countdown',
+            end_time: end_time,
+            progress_color: timer[:color],
+            progress_size: timer[:size] %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

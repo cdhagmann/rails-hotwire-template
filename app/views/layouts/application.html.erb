@@ -22,7 +22,7 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body data-controller="timer-service" data-timer-service-interval-value="1000">
     <%= render 'shared/navbar' %>
 
     <!-- Page content here -->
@@ -35,5 +35,10 @@
         <%= yield %>
       </div>
     </main>
+
+    <% if Rails.env.development? %>
+      <!-- Debug info for timer service (only visible in development) -->
+      <div class="fixed bottom-2 right-2 text-xs text-gray-500" data-timer-service-target="debug"></div>
+    <% end %>
   </body>
 </html>

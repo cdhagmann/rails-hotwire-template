@@ -11,5 +11,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   resources "pages", only: [ :index ]
+  get "countdown_demo", to: "pages#countdown_demo"
+  get "timer_demo", to: "pages#timer_demo"
   root to: "pages#index"
 end

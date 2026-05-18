@@ -1,0 +1,83 @@
+<%
+  # You can pass an end_time parameter to the partial, or use the default values
+  end_time ||= nil
+  days ||= 15
+  hours ||= 10
+  minutes ||= 24
+  seconds ||= 59
+  hide_empty ||= true
+  progress_color ||= "accent" # Options: primary, secondary, accent, info, success, warning, error
+  progress_size ||= "md" # Options: xs, sm, md, lg
+%>
+
+<div
+  class="flex flex-col items-center gap-4"
+  data-controller="countdown"
+  <% if end_time %>
+    data-countdown-end-time-value="<%= end_time %>"
+  <% else %>
+    data-countdown-start-days-value="<%= days %>"
+    data-countdown-start-hours-value="<%= hours %>"
+    data-countdown-start-minutes-value="<%= minutes %>"
+    data-countdown-start-seconds-value="<%= seconds %>"
+  <% end %>
+  data-countdown-hide-empty-value="<%= hide_empty %>"
+  data-countdown-use-global-timer-value="true"
+  data-action="countdown:complete->countdown#stopCountdown"
+>
+  <div class="grid auto-cols-max grid-flow-col gap-5 text-center">
+    <div class="flex flex-col <%= 'hidden' if hide_empty && days == 0 %>" data-countdown-target="daysContainer">
+      <span class="countdown font-mono text-5xl">
+        <span
+          data-countdown-target="days"
+          style="--value:<%= days %>;"
+          aria-live="polite"
+          aria-label="<%= days %>"
+        ><%= days %></span>
+      </span>
+      days
+    </div>
+    <div class="flex flex-col <%= 'hidden' if hide_empty && days == 0 && hours == 0 %>" data-countdown-target="hoursContainer">
+      <span class="countdown font-mono text-5xl">
+        <span
+          data-countdown-target="hours"
+          style="--value:<%= hours %>;"
+          aria-live="polite"
+          aria-label="<%= hours %>"
+        ><%= hours %></span>
+      </span>
+      hours
+    </div>
+    <div class="flex flex-col">
+      <span class="countdown font-mono text-5xl">
+        <span
+          data-countdown-target="minutes"
+          style="--value:<%= minutes %>;"
+          aria-live="polite"
+          aria-label="<%= minutes %>"
+        ><%= minutes %></span>
+      </span>
+      min
+    </div>
+    <div class="flex flex-col">
+      <span class="countdown font-mono text-5xl">
+        <span
+          data-countdown-target="seconds"
+          style="--value:<%= seconds %>;"
+          aria-live="polite"
+          aria-label="<%= seconds %>"
+        ><%= seconds %></span>
+      </span>
+      sec
+    </div>
+  </div>
+
+  <!-- Progress bar that fills up as countdown progresses -->
+  <progress
+    class="progress progress-<%= progress_color %> progress-<%= progress_size %> w-full"
+    value="0"
+    max="100"
+    data-countdown-target="progressBar"
+    aria-label="Countdown progress"
+  ></progress>
+</div>

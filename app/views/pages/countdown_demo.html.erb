@@ -1,0 +1,38 @@
+<div class="container mx-auto py-8 px-4">
+  <h1 class="text-3xl font-bold mb-6">Countdown Demo</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Default Countdown</h2>
+        <p class="mb-4">Shows days, hours, minutes, and seconds with default styling</p>
+        <%= render 'shared/countdown' %>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Custom Values Countdown</h2>
+        <p class="mb-4">Custom time values with success progress bar</p>
+        <%= render 'shared/countdown', days: 2, hours: 5, minutes: 30, seconds: 45, progress_color: "success" %>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Short Countdown (Less than 1 hour)</h2>
+        <p class="mb-4">Days and hours are hidden automatically</p>
+        <%= render 'shared/countdown', days: 0, hours: 0, minutes: 30, seconds: 0, progress_color: "warning", progress_size: "lg" %>
+      </div>
+    </div>
+
+    <div class="card bg-base-200 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">End Time Countdown (1 minute from now)</h2>
+        <p class="mb-4">Using end_time parameter instead of individual units</p>
+        <% one_minute_from_now = (Time.now + 1.minute).iso8601 %>
+        <%= render 'shared/countdown', end_time: one_minute_from_now, progress_color: "error", progress_size: "xs" %>
+      </div>
+    </div>
+  </div>
+</div>
